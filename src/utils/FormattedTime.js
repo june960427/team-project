@@ -1,5 +1,8 @@
-const formattedDate = () => {
-  const date = new Date()
+const date = new Date()
+const hour = date.getHours()
+const minutes = date.getMinutes()
+
+const today = () => {
   const year = date.getFullYear().toString()
   const month = (date.getMonth() + 1).toString().padStart(2, '0')
   const day = date.getDate().toString().padStart(2, '0')
@@ -7,12 +10,38 @@ const formattedDate = () => {
   return year + month + day
 }
 
-const formattedHour = () => {
+const yesterday = () => {
   const date = new Date()
-  const hour = date.getHours()
-  const foramtHour = hour.toString().padStart(2, '0')
+  date.setDate(date.getDate() - 1)
 
-  return foramtHour
+  const year = date.getFullYear().toString()
+  const month = (date.getMonth() + 1).toString().padStart(2, '0')
+  const day = date.getDate().toString().padStart(2, '0')
+
+  return year + month + day
 }
 
-export { formattedDate, formattedHour }
+const formattedDate = currentTime => {
+  return hour === 0 && currentTime.slice(0, 2) === '23' ? yesterday() : today()
+}
+
+const 초단기실황조회시간 = () => {
+  const adjustedHour = minutes < 10 ? (hour === 0 ? 23 : hour - 1) : hour
+  return adjustedHour.toString().padStart(2, '0').padEnd(4, '0')
+}
+
+const 초단기예보조회시간 = () => {
+  const adjustedHour = minutes < 30 ? (hour === 0 ? 23 : hour - 1) : hour
+  return adjustedHour.toString().padStart(2, '0').padEnd(4, '30')
+}
+
+const 단기예보조회시간 = () => {
+  const baseTimes = [23, 20, 17, 14, 11, 8, 5, 2]
+  const baseTime = baseTimes.find(baseTime => hour > baseTime || (hour === baseTime && minutes >= 10)) || 23
+
+  return baseTime.toString().padStart(2, '0').padEnd(4, '0')
+}
+
+console.log(formattedDate(초단기실황조회시간()), formattedDate(초단기예보조회시간()), formattedDate(단기예보조회시간()))
+
+export { formattedDate, 초단기실황조회시간, 초단기예보조회시간, 단기예보조회시간 }
