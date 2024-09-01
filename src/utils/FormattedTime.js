@@ -42,6 +42,4 @@ const 단기예보조회시간 = () => {
   return baseTime.toString().padStart(2, '0').padEnd(4, '0')
 }
 
-console.log(formattedDate(초단기실황조회시간()), formattedDate(초단기예보조회시간()), formattedDate(단기예보조회시간()))
-
 export { formattedDate, 초단기실황조회시간, 초단기예보조회시간, 단기예보조회시간 }
