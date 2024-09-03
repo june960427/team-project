@@ -85,8 +85,4 @@ const 단기예보조회 = async (nx, ny) => {
   }
 }
 
-초단기실황조회(60, 129).then(data => console.log(data))
-초단기예보조회(60, 129).then(data => console.log(data))
-단기예보조회(60, 129).then(data => console.log(data))
-
 export { 초단기실황조회, 초단기예보조회, 단기예보조회 }
