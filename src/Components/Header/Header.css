@@ -1,3 +1,23 @@
 header {
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 1.5rem;
+
+  h1 {
+    font-size: 1rem;
+    font-weight: 540;
+    margin-bottom: 0px;
+  }
+
+  h2 {
+    font-size: 1.1rem;
+    margin-top: 2px;
+  }
+
+  p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
 }
