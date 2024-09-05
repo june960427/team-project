@@ -21,7 +21,7 @@ const yesterday = () => {
   return year + month + day
 }
 
-const formattedDate = currentTime => {
+const formattedDate = (currentTime) => {
   return hour === 0 && currentTime.slice(0, 2) === '23' ? yesterday() : today()
 }
 
@@ -37,11 +37,9 @@ const 초단기예보조회시간 = () => {
 
 const 단기예보조회시간 = () => {
   const baseTimes = [23, 20, 17, 14, 11, 8, 5, 2]
-  const baseTime = baseTimes.find(baseTime => hour > baseTime || (hour === baseTime && minutes >= 10)) || 23
+  const baseTime = baseTimes.find((baseTime) => hour > baseTime || (hour === baseTime && minutes >= 10)) || 23
 
   return baseTime.toString().padStart(2, '0').padEnd(4, '0')
 }
 
-console.log(단기예보조회시간())
-
-export { formattedDate, 초단기실황조회시간, 초단기예보조회시간, 단기예보조회시간 }
+export { today, formattedDate, 초단기실황조회시간, 초단기예보조회시간, 단기예보조회시간 }
