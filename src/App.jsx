@@ -1,5 +1,5 @@
 import Header from '@components/Header/Header'
-import { Graph } from './Components/Graph'
+import { Graph } from '@components/Graph/Graph'
 
 const App = () => {
   return (
