@@ -10,6 +10,14 @@ const WeatherBadge = () => {
   const nx = 61 // 서울 강남구 X 좌표
   const ny = 126 // 서울 강남구 Y 좌표
 
+  const 맑음 = 'src/assets/맑음.png'
+  const 구름많음 = 'src/assets/구름많음.png'
+  const 흐림 = 'src/assets/흐림.png'
+  const 비 = 'src/assets/비.png'
+  const 비눈 = 'src/assets/비눈.png'
+  const 눈 = 'src/assets/눈.png'
+  const 소나기 = 'src/assets/소나기.png'
+
   const getWeather = async () => {
     try {
       const response = await 단기예보조회(nx, ny)
@@ -38,16 +46,16 @@ const WeatherBadge = () => {
     //하늘 상태 :맑음(1), 구름많음(3), 흐림(4)
     switch (skyStatus) {
       case 1:
-        setWeatherIcon('☀️')
+        setWeatherIcon(맑음)
         break
       case 3:
-        setWeatherIcon('🌤️')
+        setWeatherIcon(구름많음)
         break
       case 4:
-        setWeatherIcon('☁️')
+        setWeatherIcon(흐림)
         break
       default:
-        setWeatherIcon('☀️')
+        setWeatherIcon(맑음)
         break
     }
 
@@ -56,14 +64,16 @@ const WeatherBadge = () => {
       case 0:
         break
       case 1:
+        setWeatherIcon(비)
+        break
       case 2:
-        setWeatherIcon('🌧️')
+        setWeatherIcon(비눈)
         break
       case 3:
-        setWeatherIcon('☃️')
+        setWeatherIcon(눈)
         break
       case 4:
-        setWeatherIcon('☔️')
+        setWeatherIcon(소나기)
         break
     }
   }
@@ -78,7 +88,13 @@ const WeatherBadge = () => {
 
   return (
     <div className='weather-container'>
-      <div className='weather-icon'>{weatherIcon}</div>
+      <div className='weather-icon'>
+        <img
+          className='icon-image'
+          src={weatherIcon}
+          alt='Weather Image'
+        />
+      </div>
     </div>
   )
 }
