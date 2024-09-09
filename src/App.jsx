@@ -1,25 +1,37 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { 단기예보조회 } from './apis/apis'
 import Header from '@components/Header/Header'
-import sunnyImage from './assets/맑음.jpg'
+import './App.css' // 스타일을 추가한 CSS
+
+// 이미지 임포트
+import sunny from './assets/맑음.jpg'
+import cloudy from './assets/구름.jpg'
+import cloudy2 from './assets/흐림.jpg'
+import snowy from './assets/눈.jpg'
+import rainSnow from './assets/눈_비.jpg'
+import rain from './assets/비.jpg'
+import shower from './assets/소나기.jpg'
 
 const App = () => {
-  const [skyStatus, setSkyStatus] = useState()
-  const [rainStatus, setRainStatus] = useState()
-  const [background, setBackground] = useState('')
+  const [skyStatus, setSkyStatus] = useState(null)
+  const [rainStatus, setRainStatus] = useState(null)
+  const [backgroundImage, setBackgroundImage] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const nx = 61 // 서울 강남구 X 좌표
   const ny = 126 // 서울 강남구 Y 좌표
 
-  const getWeather = async () => {
+  const getWeather = useCallback(async () => {
+    setLoading(true)
     try {
+      console.log('성공')
       const response = await 단기예보조회(nx, ny)
 
       if (response && response.data && response.data.response) {
         const items = response.data.response.body.items.item
 
-        const skyData = items.find((item) => item.category === 'SKY') //하늘상태 자료구분코드 : 'SKY'
-        const rainData = items.find((item) => item.category === 'PTY') //강수형태 자료구분코드 : 'PTY'
+        const skyData = items.find((item) => item.category === 'SKY')
+        const rainData = items.find((item) => item.category === 'PTY')
 
         if (skyData && rainData) {
           setSkyStatus(skyData.fcstValue)
@@ -32,57 +44,70 @@ const App = () => {
       }
     } catch (error) {
       console.error('에러 발생', error)
+    } finally {
+      setLoading(false)
     }
-  }
-
-  const setWeather = (skyStatus, rainStatus) => {
-    //하늘 상태 :맑음(1), 구름많음(3), 흐림(4)
-    switch (skyStatus) {
-      case 1:
-        setBackground(`url(${sunnyImage})`)
-        break
-      case 3:
-        setBackground(`url(${sunnyImage})`)
-        break
-      case 4:
-        setBackground(`url(${sunnyImage})`)
-        break
-      default:
-        setBackground(`url(${sunnyImage})`)
-        break
-    }
-
-    //강수 형태: 없음(0), 비(1), 비/눈(2), 눈(3), 소나기(4)
-    switch (rainStatus) {
-      case 0:
-        break
-      case 1:
-        setBackground(`url(${sunnyImage})`)
-        break
-      case 2:
-        setBackground(`url(${sunnyImage})`)
-        break
-      case 3:
-        setBackground(`url(${sunnyImage})`)
-        break
-      case 4:
-        setBackground(`url(${sunnyImage})`)
-        break
-    }
-  }
+  }, [nx, ny])
 
   useEffect(() => {
     getWeather()
-  }, [])
+  }, [getWeather])
 
   useEffect(() => {
-    setWeather(skyStatus, rainStatus)
+    if (skyStatus !== null && rainStatus !== null) {
+      console.log('skyStatus:', skyStatus)
+      console.log('rainStatus:', rainStatus)
+
+      let image = ''
+      switch (Number(skyStatus)) {
+        case 1:
+          image = sunny // 맑음
+          break
+        case 3:
+          image = cloudy // 구름 많음
+          break
+        case 4:
+          image = cloudy2 // 흐림
+          break
+        default:
+          break
+      }
+      switch (Number(rainStatus)) {
+        case 0:
+          break
+        case 1:
+          image = rain // 비
+          break
+        case 2:
+          image = rainSnow // 비/눈
+          break
+        case 3:
+          image = snowy // 눈
+          break
+        case 4:
+          image = shower // 소나기
+          break
+        default:
+          break
+      }
+      // setBackgroundColor(color)
+      setBackgroundImage(image)
+    }
   }, [skyStatus, rainStatus])
 
   return (
-    <div style={{ backgroundImage: `url(${background})`, backgroundSize: 'cover', height: '100vh' }}>
+    <div
+      style={{
+        backgroundSize: 'cover',
+        height: '100vh',
+        backgroundImage: `url(${backgroundImage})`,
+        position: 'relative', // 스피너 위치 조정
+      }}
+    >
+      {loading && <div className='spinner'></div>}
       <Header />
     </div>
   )
 }
+
 export default App
