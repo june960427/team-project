@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import ListArea from './ListArea'
 import GetCurrentTemperature from './GetCurrentTemperature'
 import './Food.css'

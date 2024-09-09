@@ -35,6 +35,7 @@ export default [
       'react/jsx-no-target-blank': 'off',
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'prettier/prettier': 'error',
+      'react/prop-types': 'off',
     },
   },
   eslintConfigPrettier,

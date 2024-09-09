@@ -1,8 +1,8 @@
-import searchFood from '../../apis/naverApi'
+import useSearchFood from '../../apis/naverApi'
 import './Food.css'
 
 const ListArea = ({ search }) => {
-  const { loading, data, error } = searchFood(search)
+  const { loading, data, error } = useSearchFood(search)
 
   if (loading) {
     return <p>로딩중...</p>
