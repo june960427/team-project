@@ -1,0 +1,51 @@
+.container{
+  width: 95%;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  overflow-x: auto;
+}
+.container::-webkit-scrollbar{
+  display: none;
+}
+
+.container div {
+  border-radius: 20px;
+  width: 250px;
+  height: 180px;
+  background-color: #FFF;
+  display: flex;
+  flex-direction: column;
+  flex:0 0 auto;
+  margin-bottom: 20px;
+  text-align: center;
+  align-items: center;
+  justify-content: space-around;
+  padding-bottom: 10px;
+
+}
+
+.recommendation {
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.recommendation p {
+  color: #000;
+  font-weight: bold;
+}
+
+.main_container {
+  width:90%;
+  height: 270px;
+  background-color:rgba(233, 216, 225, 0.3);
+  margin: 0 auto;
+  border-radius: 20px;
+
+}
