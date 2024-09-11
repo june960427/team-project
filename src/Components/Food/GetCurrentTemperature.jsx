@@ -1,17 +1,17 @@
 import { useEffect } from 'react'
 import { 단기예보조회 } from '../../apis/apis.js'
 
-const GetCurrentTemperature = ({ onTemperatureUpdate }) => {
-  const NX = 61
-  const NY = 126
+const NX = 61
+const NY = 126
+const filterByCategory = (category) => (data) => data.category === category
+const formatForecastTime = (time) => time.slice(0, 2)
+const foramtValueName = ({ fcstTime, fcstValue, ...rest }) => ({
+  시간: formatForecastTime(fcstTime),
+  온도: fcstValue,
+  ...rest,
+})
 
-  const filterByCategory = (category) => (data) => data.category === category
-  const formatForecastTime = (time) => time.slice(0, 2)
-  const foramtValueName = ({ fcstTime, fcstValue, ...rest }) => ({
-    시간: formatForecastTime(fcstTime),
-    온도: fcstValue,
-    ...rest,
-  })
+const GetCurrentTemperature = ({ onTemperatureUpdate }) => {
   const getLatestItem = (items) => {
     if (items.length === 0) return null
     const sortedItems = items.sort((a, b) => new Date(`${a.날짜} ${a.시간}`) - new Date(`${b.날짜} ${b.시간}`))
