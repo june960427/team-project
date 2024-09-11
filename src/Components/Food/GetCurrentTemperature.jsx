@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { 단기예보조회 } from '../../apis/apis.js'
 
 const GetCurrentTemperature = ({ onTemperatureUpdate }) => {
-  const [temperature, setTemperature] = useState(null)
   const NX = 61
   const NY = 126
 
@@ -29,7 +28,6 @@ const GetCurrentTemperature = ({ onTemperatureUpdate }) => {
           const items = response.data.response.body.items.item.filter(filterByCategory('TMP')).map(foramtValueName)
           const latestItem = getLatestItem(items)
           if (latestItem) {
-            setTemperature(latestItem.온도)
             onTemperatureUpdate(latestItem.온도)
           } else {
             throw new Error('데이터가 없습니다.')
@@ -38,9 +36,7 @@ const GetCurrentTemperature = ({ onTemperatureUpdate }) => {
           throw new Error('API 응답 형식이 잘못되었습니다.')
         }
       } catch (err) {
-        setError('온도 조회 중 오류 발생: ' + err.message)
-      } finally {
-        setLoading(false)
+        console.error('온도 조회 중 오류 발생: ' + err.message)
       }
     }
 
