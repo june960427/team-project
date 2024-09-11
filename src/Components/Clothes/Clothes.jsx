@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { 단기예보조회 } from '../../apis/apis'
+import './Clothes.scss'
 
 const Clothes = () => {
   const [minMaxTemp, setMinMaxTemp] = useState({ min: null, max: null })
-  const [clothes, setClothes] = useState({ outer: null, top: null })
+  const [clothes, setClothes] = useState({ outer: [], top: [] })
 
   const nx = 61 // 서울 강남구 X 좌표
   const ny = 126 // 서울 강남구 Y 좌표
@@ -13,7 +14,7 @@ const Clothes = () => {
     [{ min: 5, max: 10 }, '코트'],
     [{ min: 11, max: 15 }, '자켓'],
     [{ min: 16, max: 19 }, '가디건'],
-    [{ min: 20, max: Infinity }, null],
+    [{ min: 20, max: Infinity }, ''],
   ])
 
   const top = new Map([
@@ -51,7 +52,9 @@ const Clothes = () => {
   const getClothesRecommendation = (minMaxTemp) => {
     const outerSet = new Set()
     const topSet = new Set()
-
+    if (minMaxTemp.min === null || minMaxTemp.max === null) {
+      return
+    }
     outer.forEach((clothes, range) => {
       //Map의 forEach 메서드는 첫 번째 매개변수로 값(value)와 두 번째 매개변수로 키(key)를 전달
       const { min, max } = range
@@ -82,8 +85,12 @@ const Clothes = () => {
   }, [minMaxTemp])
 
   return (
-    <div>
-      아우터 : {clothes.outer}, 상의 : {clothes.top}
+    <div className='cloth-container'>
+      <div className='cloth-container-front'>CLOTHES</div>
+      <div className='cloth-container-back'>
+        아우터 : {clothes.outer} <br />
+        상의 : {clothes.top}
+      </div>
     </div>
   )
 }
